@@ -12,21 +12,28 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="350dp" />
+    <Button
+            android:id="@+id/btnSnap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="SNAP"/>
     <LinearLayout
+        android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
         <Button
-            android:id="@+id/btnSnap"
-            android:layout_width="100dp"
+            android:id="@+id/btnDetectText"
+            android:layout_width="150dp"
             android:layout_height="50dp"
-            android:text="SNAP"
-            android:layout_marginRight="100dp"/>
+            android:layout_marginRight="50dp"
+            android:text="Detect Text"/>
         <Button
-            android:id="@+id/btnDetect"
-            android:layout_width="100dp"
+            android:id="@+id/btnLabelImage"
+            android:layout_width="150dp"
             android:layout_height="50dp"
-            android:text="Detect"/>
+            android:text="Label Image"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tvTextRecognised"

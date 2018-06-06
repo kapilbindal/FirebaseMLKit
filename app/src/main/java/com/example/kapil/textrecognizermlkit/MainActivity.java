@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
 
@@ -24,29 +27,39 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnSnap,btnDetect;
+    Button btnSnap,btnDetectText,btnLabelImage;
     ImageView imageView;
     TextView tvTextRecognised;
     Bitmap imageBitmap;
+    LinearLayout layoutButtons;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.imageView);
-        btnDetect = findViewById(R.id.btnDetect);
+        btnDetectText = findViewById(R.id.btnDetectText);
+        btnLabelImage = findViewById(R.id.btnLabelImage);
         btnSnap = findViewById(R.id.btnSnap);
+        layoutButtons = findViewById(R.id.layoutButtons);
         tvTextRecognised = findViewById(R.id.tvTextRecognised);
         btnSnap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dispatchTakePictureIntent();
+                layoutButtons.setVisibility(View.VISIBLE);
             }
         });
-        btnDetect.setOnClickListener(new View.OnClickListener() {
+        btnDetectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 detectTxt();
+            }
+        });
+        btnLabelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                labelImage();
             }
         });
     }
@@ -65,6 +78,39 @@ public class MainActivity extends AppCompatActivity {
             //detectText(imageBitmap);
         }
     }
+
+    private void labelImage(){
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
+        FirebaseVisionLabelDetector detector = FirebaseVision.getInstance()
+                .getVisionLabelDetector();
+        Task<List<FirebaseVisionLabel>> result =
+                detector.detectInImage(image)
+                        .addOnSuccessListener(
+                                new OnSuccessListener<List<FirebaseVisionLabel>>() {
+                                    @Override
+                                    public void onSuccess(List<FirebaseVisionLabel> labels) {
+                                        processLabel(labels);
+                                    }
+                                })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
+    }
+    private void processLabel(List<FirebaseVisionLabel> firebaseVisionLabel){
+        List<FirebaseVisionLabel> labels = firebaseVisionLabel;
+        for (FirebaseVisionLabel label: labels) {
+            String text = label.getLabel();
+            String entityId = label.getEntityId();
+            float confidence = label.getConfidence();
+            tvTextRecognised.setText(text + "\n" + entityId + "\n" + confidence );
+        }
+
+    }
+
     private void detectText(Bitmap imageBitmap) {
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
         FirebaseVisionTextDetector detector = FirebaseVision.getInstance()
@@ -90,8 +136,11 @@ public class MainActivity extends AppCompatActivity {
     private void detectTxt(){
         FirebaseVisionImage firebaseVisionImage;
         firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
-        FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
-        firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+        FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance()
+                .getVisionTextDetector();
+
+        firebaseVisionTextDetector.detectInImage(firebaseVisionImage)
+                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
             @Override
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 processText(firebaseVisionText);
@@ -110,8 +159,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         for(FirebaseVisionText.Block  block : firebaseVisionText.getBlocks()){
-            String text = block.getText();
-            tvTextRecognised.setText(text);
+            //String text = block.getText();
+            for(FirebaseVisionText.Line line : block.getLines()){
+                String text = line.getText();
+                tvTextRecognised.setText(text);
+
+            }
         }
     }
 }
