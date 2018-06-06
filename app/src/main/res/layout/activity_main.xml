@@ -11,36 +11,43 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="350dp" />
+        android:layout_height="330dp"
+        android:src="@drawable/ml_kit"/>
     <Button
             android:id="@+id/btnSnap"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="SNAP"/>
+            android:text="Snap Image"/>
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone">
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:gravity="center">
         <Button
             android:id="@+id/btnDetectText"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
             android:text="Detect Text"/>
         <Button
             android:id="@+id/btnLabelImage"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
             android:text="Label Image"/>
+        <Button
+            android:id="@+id/btnRecognizeFace"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:text="Face Recognize"/>
     </LinearLayout>
+
     <TextView
-        android:id="@+id/tvTextRecognised"
+        android:id="@+id/tvImageData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>
