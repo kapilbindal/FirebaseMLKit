@@ -19,6 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Snap Image"/>
+    <Button
+        android:id="@+id/btnLivePreviewDemo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Live Preview Demo"/>
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"

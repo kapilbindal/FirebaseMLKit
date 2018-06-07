@@ -35,7 +35,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnSnap,btnDetectText,btnLabelImage,btnRecognizeFace,btnDetectBarcode;
+    Button btnSnap,btnDetectText,btnLabelImage,btnRecognizeFace,btnDetectBarcode,btnLivePreviewDemo;
     ImageView imageView;
     TextView tvImageData;
     Bitmap imageBitmap;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         btnLabelImage = findViewById(R.id.btnLabelImage);
         btnDetectBarcode = findViewById(R.id.btnDetectBarcode);
         btnRecognizeFace = findViewById(R.id.btnRecognizeFace);
+        btnLivePreviewDemo = findViewById(R.id.btnLivePreviewDemo);
         layoutButtons = findViewById(R.id.layoutButtons);
         layoutButtons2 = findViewById(R.id.layoutButtons2);
         tvImageData = findViewById(R.id.tvImageData);
@@ -61,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dispatchTakePictureIntent();
+            }
+        });
+        btnLivePreviewDemo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,LivePreviewActivity.class));
             }
         });
         btnDetectText.setOnClickListener(new View.OnClickListener() {

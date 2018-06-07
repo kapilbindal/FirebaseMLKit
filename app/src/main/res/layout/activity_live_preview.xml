@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fireTopLayout"
+    android:orientation="vertical"
+    android:background="#000"
+    android:keepScreenOn="true"
+    tools:context=".LivePreviewActivity">
+
+    <com.example.kapil.textrecognizermlkit.CameraSourcePreview
+        android:id="@+id/firePreview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <com.example.kapil.textrecognizermlkit.GraphicOverlay
+            android:id="@+id/fireFaceOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"/>
+    </com.example.kapil.textrecognizermlkit.CameraSourcePreview>
+    <ToggleButton
+        android:id="@+id/facingswitch"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@mipmap/camera_icon"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:checked="false" />
+    <Button
+        android:id="@+id/btnStillImagePreview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="50dp"
+        android:text="Still Image Preview"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
